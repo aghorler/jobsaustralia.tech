@@ -16,12 +16,12 @@ class CreateJobsTable extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->string('hours');
-            $table->string('salary');
-            $table->string('availablefrom');
-            $table->string('location');
+			$table->integer('salary');
             $table->string('startdate');
+            $table->string('state');
+            $table->string('city');
 
             /* Skills */
             $table->boolean('java');
@@ -51,7 +51,7 @@ class CreateJobsTable extends Migration
             $table->boolean('scala');
 
             $table->integer('employerid')->unsigned();
-            $table->foreign('employerid')->references('id')->on('employers');
+            $table->foreign('employerid')->references('id')->on('employers')->onDelete('cascade');
 
             $table->timestamps();
         });

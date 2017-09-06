@@ -15,7 +15,7 @@
 
 Route::get('/', function (){
     return view('index');
-});
+})->name('index');
 
 Route::get('/about', function (){
     return view('about');
@@ -29,30 +29,45 @@ Route::get('/contact', function (){
     return view('contact');
 })->name('contact');
 
+Route::get('/terms', function (){
+    return view('terms');
+})->name('terms');
 
 /* GET Controller Routes */
 
-Route::get('/edit', function (){
-    return view('edit');
-})->name('edit');
-
-Route::get('/profile/update/{id}', [
-    'as' => 'edit',
-    'uses' => 'profileController@update'
-]);
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/profile', 'ProfileController@index')->name('profile');
 
-Route::get('/matches', 'JobController@index')->name('matches');
+Route::get('/profile/edit', 'ProfileController@editIndex')->name('editProfile');
+
+Route::get('/matches', 'JobController@matchIndex')->name('matches');
+
+Route::get('/job/{id}', 'JobController@displayJob')->name('displayJob');
+
+Route::get('/job/{id}/apply', 'JobController@displayApplyForJob')->name('displayApplyForJob');
 
 /* POST Controller Routes */
 
 Route::post('/enquire', 'ContactController@send')->name('enquire');
 
+Route::post('/profile/update', 'ProfileController@updateProfile')->name('updateProfile');
+
+Route::post('/profile/delete', 'ProfileController@delete')->name('delete');
+
+Route::post('/profile/upload', 'ProfileController@uploadResume')->name('resume');
+
 /* Authentication Routes */
 
 Auth::routes();
 
-Route::post('/delete', 'Auth\DeleteController@delete')->name('delete');
+/* API Routes */
+
+Route::get('/api/user', function(){
+	if(Auth::user() != null){
+		return Auth::user();
+	}
+	else{
+		return "ERROR 01: Session Error.";
+	}
+});
+
+Route::get('/api/jobs/{state}', 'JobController@getJobs')->name('getJobs');
