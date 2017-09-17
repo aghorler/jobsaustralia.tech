@@ -3,31 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Filter Matches</div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="state" class="col-md-4 control-label">State/Territory</label>
-
-                        <div class="col-md-6">
-                            <select id="state" class="form-control">
-                                <option value="vic" @if (Auth::user()->state == "vic") selected @endif >Victoria</option>
-                                <option value="nsw" @if (Auth::user()->state == "nsw") selected @endif >New South Wales</option>
-                                <option value="qld" @if (Auth::user()->state == "qld") selected @endif >Queensland</option>
-                                <option value="wa" @if (Auth::user()->state == "wa") selected @endif >Western Australia</option>
-                                <option value="sa" @if (Auth::user()->state == "sa") selected @endif >South Australia</option>
-                                <option value="tas" @if (Auth::user()->state == "tas") selected @endif >Tasmania</option>
-                                <option value="act" @if (Auth::user()->state == "act") selected @endif >Australian Capital Territory</option>
-                                <option value="nt" @if (Auth::user()->state == "nt") selected @endif >Northern Teritory</option>
-                                <option value="oth" @if (Auth::user()->state == "oth") selected @endif >Other Australian Region</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="employer" class="col-md-8 col-md-offset-2">
+            <h3><i class="fa fa-life-ring" aria-hidden="true"></i> Employer - {{ $name }}</h3><br>
+            <p>{{ $name }} is an employer in {{ $city }}, @if ($state == "vic") Victoria. @elseif ($state == "nsw") New South Wales. @elseif ($state == "qld") Queensland. @elseif ($state == "wa") Western Australia. @elseif ($state == "sa") South Australia. @elseif ($state == "tas") Tasmania. @elseif ($state == "act") the Australian Capital Territory. @elseif ($state == "nt") the Northern Territory. @elseif ($state == "oth") an Other Australian Region. @endif</p>
 
             <hr>
+
+            <input type="hidden" id="employerid" value="{{ $id }}" />
 
             <!-- NoScript div. Used to display message about JavaScript being disabled, or not working. -->
             <div id="noscript" align="center">

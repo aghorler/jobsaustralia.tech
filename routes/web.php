@@ -33,41 +33,51 @@ Route::get('/terms', function (){
     return view('terms');
 })->name('terms');
 
+
 /* GET Controller Routes */
+
+Route::get('/job/{id}', 'JobController@jobIndex')->name('displayJob');
+
+Route::get('/employer/{id}', 'JobController@employerProfile')->name('employer');
+
+Route::get('/matches', 'JobController@matchIndex')->name('matches');
 
 Route::get('/profile', 'ProfileController@index')->name('profile');
 
 Route::get('/profile/edit', 'ProfileController@editIndex')->name('editProfile');
 
-Route::get('/matches', 'JobController@matchIndex')->name('matches');
+Route::get('/applications', 'ApplicationController@indexApplications')->name('applications');
 
-Route::get('/job/{id}', 'JobController@displayJob')->name('displayJob');
+Route::get('/resume', 'ResumeController@viewResume')->name('resume');
 
-Route::get('/job/{id}/apply', 'JobController@displayApplyForJob')->name('displayApplyForJob');
 
 /* POST Controller Routes */
 
 Route::post('/enquire', 'ContactController@send')->name('enquire');
 
-Route::post('/profile/update', 'ProfileController@updateProfile')->name('updateProfile');
+Route::post('/job/apply', 'ApplicationController@apply')->name('apply');
 
 Route::post('/profile/delete', 'ProfileController@delete')->name('delete');
 
-Route::post('/profile/upload', 'ProfileController@uploadResume')->name('resume');
+Route::post('/profile/update', 'ProfileController@updateProfile')->name('updateProfile');
+
+Route::post('/resume/upload', 'ResumeController@uploadResume')->name('uploadResume');
+
+Route::post('/resume/delete', 'ResumeController@deleteResume')->name('deleteResume');
+
 
 /* Authentication Routes */
 
 Auth::routes();
 
+
 /* API Routes */
 
-Route::get('/api/user', function(){
-	if(Auth::user() != null){
-		return Auth::user();
-	}
-	else{
-		return "ERROR 01: Session Error.";
-	}
-});
+/* Return currently authenticated user. */
+Route::get('/api/user/token/{token}', 'APIController@getUser')->name('getUser');
 
-Route::get('/api/jobs/{state}', 'JobController@getJobs')->name('getJobs');
+/* Return jobs by state. */
+Route::get('/api/jobs/state/{state}/token/{token}', 'APIController@getJobsByState')->name('getJobsByState');
+
+/* Return jobs by state. */
+Route::get('/api/jobs/employer/{employerid}/token/{token}', 'APIController@getJobsByEmployer')->name('getJobsByEmployer');

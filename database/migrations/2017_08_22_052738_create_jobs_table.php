@@ -14,11 +14,14 @@ class CreateJobsTable extends Migration
     public function up()
     {
         Schema::create('jobs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->unique();
+            $table->primary('id');
             $table->string('title');
             $table->text('description');
+			$table->string('term');
             $table->string('hours');
 			$table->integer('salary');
+			$table->string('rate');
             $table->string('startdate');
             $table->string('state');
             $table->string('city');
@@ -50,7 +53,7 @@ class CreateJobsTable extends Migration
             $table->boolean('asp');
             $table->boolean('scala');
 
-            $table->integer('employerid')->unsigned();
+            $table->uuid('employerid');
             $table->foreign('employerid')->references('id')->on('employers')->onDelete('cascade');
 
             $table->timestamps();
