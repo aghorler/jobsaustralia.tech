@@ -14,6 +14,7 @@
                     <p><strong>Sector:</strong> {{ Auth::user()->sector }}</p>
                     <p><strong>Experience:</strong> {{ Auth::user()->experience }} @if (Auth::user()->experience == 1) year @else years @endif</p>
                     <p><strong>Location:</strong> {{ Auth::user()->city }}, @if (Auth::user()->state == "vic") Victoria @elseif (Auth::user()->state == "nsw") New South Wales @elseif (Auth::user()->state == "qld") Queensland @elseif (Auth::user()->state == "wa") Western Australia @elseif (Auth::user()->state == "sa") South Australia @elseif (Auth::user()->state == "tas") Tasmania @elseif (Auth::user()->state == "act") Australian Capital Territory @elseif (Auth::user()->state == "nt") Northern Territory @elseif (Auth::user()->state == "oth") Other Australian Region @endif</p>
+                    @if (Auth::user()->github !== null) <p><strong><i class="fa fa-github" aria-hidden="true"></i> GitHub: <a href="https://github.com/{{ Auth::user()->github }}">{{ Auth::user()->github }}</a></strong></p> @endif
 
                     <hr>
 
@@ -41,7 +42,7 @@
 
                     <div id="confirm-delete-content" style="display: none;">
                         <p>
-                            Confirm deletion: <a id="really-confirm-delete" class="text-danger" href="javascript:void(0)">I really want to delete my account.</a>
+                            Confirm deletion: <a id="really-confirm-delete" class="text-danger" href="#">I really want to delete my account.</a>
                         </p>
 
                         <div id="really-confirm-delete-content" style="display: none;">
@@ -52,7 +53,7 @@
                                 <strong>It is impossible to recover an account, or its data, after deletion!</strong>
                             </p>
                             <p>
-                                <a class="text-danger" title="Clicking this will delete your account without further prompt." href="{{ route('delete') }}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">I am <strong>positively certain</strong> I want to delete my account.</a>
+                                <a id="delete" class="text-danger" title="Clicking this will delete your account without further prompt." href="{{ route('delete') }}">I am <strong>positively certain</strong> I want to delete my account.</a>
                             </p>
                         </div>
                     </div>
@@ -68,7 +69,7 @@
 
                 <div class="panel-body">
                     <p>Uploading a resume is optional.</p>
-                    <p><strong>Current resume: </strong>@if (File::exists(storage_path('app/public/resumes/' . 'resume-' . Auth::user()->id . '.pdf'))) <a href="{{ route('resume') }}">Preview</a> &bull; <a class="text-danger" href="{{ route('deleteResume') }}" onclick="event.preventDefault(); document.getElementById('delete-resume-form').submit();">Delete</a> @else None. @endif</p>
+                    <p><strong>Current resume: </strong>@if (File::exists(storage_path('app/public/resumes/' . 'resume-' . Auth::user()->id . '.pdf'))) <a href="{{ route('resume') }}">Preview</a> &bull; <a id="delete-resume" class="text-danger" href="{{ route('deleteResume') }}">Delete</a> @else None. @endif</p>
 
                     <form id="delete-resume-form" action="{{ route('deleteResume') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}

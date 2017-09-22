@@ -42,6 +42,7 @@ class RegisterController extends Controller{
             'experience' => 'required|integer|min:0|max:100',
             'state' => 'required|string|in:vic,nsw,qld,wa,sa,tas,act,nt,oth',
             'city' => 'required|string|regex:/^[a-zA-Z ]+$/|max:255',
+            'github' => 'max:40',
             'java' => 'required|boolean',
             'python' => 'required|boolean',
             'c' => 'required|boolean',
@@ -67,6 +68,7 @@ class RegisterController extends Controller{
             'ruby' => 'required|boolean',
             'asp' => 'required|boolean',
             'scala' => 'required|boolean',
+            'cow' => 'required|boolean',
             'password' => 'required|string|min:6|confirmed'
         ]);
     }
@@ -82,6 +84,7 @@ class RegisterController extends Controller{
             'experience' => $data['experience'],
             'state' => $data['state'],
             'city' => $data['city'],
+            'github' => $data['github'],
             'java' => $data['java'],
             'python' => $data['python'],
             'c' => $data['c'],
@@ -107,6 +110,7 @@ class RegisterController extends Controller{
             'ruby' => $data['ruby'],
             'asp' => $data['asp'],
             'scala' => $data['scala'],
+            'cow' => $data['cow'],
             'password' => bcrypt($data['password'])
         ]);
     }
