@@ -69,6 +69,8 @@ Route::post('/resume/delete', 'ResumeController@deleteResume')->name('deleteResu
 
 Route::post('/application/delete', 'ApplicationController@delete')->name('deleteApplication');
 
+Route::post('/profile/notifications/update', 'ProfileController@updateNotificationSettings')->name('updateNotificationSettings');
+
 
 /* Authentication Routes */
 
@@ -80,8 +82,11 @@ Auth::routes();
 /* Return currently authenticated user. */
 Route::get('/api/user/token/{token}', 'APIController@getUser')->name('getUser');
 
-/* Return jobs by state. */
-Route::get('/api/jobs/state/{state}/token/{token}', 'APIController@getJobsByState')->name('getJobsByState');
+/* Return jobs by filter. */
+Route::get('/api/jobs/state/{state}/hours/{hours}/term/{term}/rate/{rate}/salary/{salary}/token/{token}', 'APIController@getJobs')->name('getJobs');
 
-/* Return jobs by state. */
+/* Return jobs by employer. */
 Route::get('/api/jobs/employer/{employerid}/token/{token}', 'APIController@getJobsByEmployer')->name('getJobsByEmployer');
+
+/* Return single job by ID. */
+Route::get('/api/job/{id}/token/{token}', 'APIController@getJob')->name('getJob');

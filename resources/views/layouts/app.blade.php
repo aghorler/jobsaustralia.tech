@@ -8,9 +8,16 @@
     <meta name="author" content="Aaron Horler, Ozlem Kirmizi, Kim Luu, Melissa Nguyen, and Dennis Mihalache.">
     <meta name="url" content="{{ Request::url() }}">
 
+    <!-- Geo tags -->
+    <meta name="geo.region" content="AU-VIC">
+    <meta name="geo.placename" content="Melbourne">
+    <meta name="geo.position" content="-37.80742;144.963795">
+    <meta name="ICBM" content="-37.80742, 144.963795">
+
     <!-- Privacy -->
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="x-dns-prefetch-control" content="off">
+    <meta name="format-detection" content="telephone=no">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,17 +26,22 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @if(Request::getHttpHost() == "jobsaustralia.tech")
+        <link href="{{ asset('css/style.min.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @endif
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('vendor/icomoon/style.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="license" href="/terms">
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#5bbad5">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1d272c">
 </head>
 <body>
     <div id="app">
@@ -74,7 +86,7 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ substr(Auth::user()->name, 0, 20) }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -88,7 +100,7 @@
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" class="default-hide" action="{{ route('logout') }}" method="POST">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -108,10 +120,19 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
-    @if(Request::path() === 'matches' || substr(Request::path(), 0, 8) === 'employer')
-        <script src="{{ asset('js/match.js') }}"></script>
+    <script src="{{ asset('vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/bootstrap.min.js') }}"></script>
+    @if(Request::getHttpHost() == "jobsaustralia.tech")
+        <script src="{{ asset('js/custom.min.js') }}"></script>
+    @else
+        <script src="{{ asset('js/custom.js') }}"></script>
+    @endif
+    @if(Request::path() === 'matches' || substr(Request::path(), 0, 3) === 'job' || substr(Request::path(), 0, 8) === 'employer')
+        @if(Request::getHttpHost() == "jobsaustralia.tech")
+            <script src="{{ asset('js/match.min.js') }}"></script>
+        @else
+            <script src="{{ asset('js/match.js') }}"></script>
+        @endif
     @endif
 </body>
 </html>

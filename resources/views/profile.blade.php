@@ -14,7 +14,10 @@
                     <p><strong>Sector:</strong> {{ Auth::user()->sector }}</p>
                     <p><strong>Experience:</strong> {{ Auth::user()->experience }} @if (Auth::user()->experience == 1) year @else years @endif</p>
                     <p><strong>Location:</strong> {{ Auth::user()->city }}, @if (Auth::user()->state == "vic") Victoria @elseif (Auth::user()->state == "nsw") New South Wales @elseif (Auth::user()->state == "qld") Queensland @elseif (Auth::user()->state == "wa") Western Australia @elseif (Auth::user()->state == "sa") South Australia @elseif (Auth::user()->state == "tas") Tasmania @elseif (Auth::user()->state == "act") Australian Capital Territory @elseif (Auth::user()->state == "nt") Northern Territory @elseif (Auth::user()->state == "oth") Other Australian Region @endif</p>
-                    @if (Auth::user()->github !== null) <p><strong><i class="fa fa-github" aria-hidden="true"></i> GitHub: <a href="https://github.com/{{ Auth::user()->github }}">{{ Auth::user()->github }}</a></strong></p> @endif
+
+                    @if (Auth::user()->github !== null) 
+                        <p><strong><i class="fa fa-github" aria-hidden="true"></i> GitHub: <a href="https://github.com/{{ Auth::user()->github }}">{{ Auth::user()->github }}</a></strong></p>
+                    @endif
 
                     <hr>
 
@@ -30,7 +33,7 @@
                         </button>
                     </p>
 
-                    <p id="change-password-content" style="display: none;">
+                    <p id="change-password-content" class="default-hide">
                         To change your password, Logout and select "Forgot Your Password".
                     </p>
 
@@ -40,12 +43,12 @@
                         </button>
                     </p>
 
-                    <div id="confirm-delete-content" style="display: none;">
+                    <div id="confirm-delete-content" class="default-hide">
                         <p>
                             Confirm deletion: <a id="really-confirm-delete" class="text-danger" href="#">I really want to delete my account.</a>
                         </p>
 
-                        <div id="really-confirm-delete-content" style="display: none;">
+                        <div id="really-confirm-delete-content" class="default-hide">
                             <p>
                                 <strong>Deleting your account will delete your current active job applications, and your resume.</strong>
                             </p>
@@ -58,8 +61,60 @@
                         </div>
                     </div>
 
-                    <form id="delete-form" action="{{ route('delete') }}" method="POST" style="display: none;">
+                    <form id="delete-form" class="default-hide" action="{{ route('delete') }}" method="POST">
                         {{ csrf_field() }}
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Notifications</div>
+
+                <div class="panel-body">
+                    <p>Please select the email notifications you would like to receive.</p>
+
+                    <hr>
+
+                    <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="{{ route('updateNotificationSettings') }}">
+                        {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('newjob') ? ' has-error' : '' }}">
+                            <label for="newjob" class="col-md-4 control-label">Notify me when an interesting new job appears</label>
+
+                            <div class="col-md-1">
+                                <input id="newjob-hidden" type="hidden" class="form-control" name="newjob" value="0">
+                                <input id="newjob" type="checkbox" class="form-control" name="newjob" value="1" @if (Auth::user()->notifynewjob) checked @endif >
+
+                                @if ($errors->has('newjob'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('newjob') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('marketing') ? ' has-error' : '' }}">
+                            <label for="marketing" class="col-md-4 control-label">Send me occasional marketing emails</label>
+
+                            <div class="col-md-1">
+                                <input id="marketing-hidden" type="hidden" class="form-control" name="marketing" value="0">
+                                <input id="marketing" type="checkbox" class="form-control" name="marketing" value="1" @if (Auth::user()->notifymarketing) checked @endif >
+
+                                @if ($errors->has('marketing'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('marketing') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -71,7 +126,7 @@
                     <p>Uploading a resume is optional.</p>
                     <p><strong>Current resume: </strong>@if (File::exists(storage_path('app/public/resumes/' . 'resume-' . Auth::user()->id . '.pdf'))) <a href="{{ route('resume') }}">Preview</a> &bull; <a id="delete-resume" class="text-danger" href="{{ route('deleteResume') }}">Delete</a> @else None. @endif</p>
 
-                    <form id="delete-resume-form" action="{{ route('deleteResume') }}" method="POST" style="display: none;">
+                    <form id="delete-resume-form" class="default-hide" action="{{ route('deleteResume') }}" method="POST">
                         {{ csrf_field() }}
                     </form>
 

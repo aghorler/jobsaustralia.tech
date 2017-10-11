@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('state');
             $table->string('city');
             $table->integer('experience');
+            $table->integer('education');
 			$table->string('github')->nullable();
 
             /* Skills */
@@ -41,7 +42,7 @@ class CreateUsersTable extends Migration
             $table->boolean('windesktop');
             $table->boolean('linuxdesktop');
             $table->boolean('macosdesktop');
-            $table->boolean('pearl');
+            $table->boolean('perl');
             $table->boolean('bash');
             $table->boolean('batch');
             $table->boolean('cisco');
@@ -52,6 +53,34 @@ class CreateUsersTable extends Migration
             $table->boolean('asp');
             $table->boolean('scala');
             $table->boolean('cow');
+            $table->boolean('actionscript');
+            $table->boolean('assembly');
+            $table->boolean('autohotkey');
+            $table->boolean('coffeescript');
+            $table->boolean('d');
+            $table->boolean('fsharp');
+            $table->boolean('haskell');
+            $table->boolean('matlab');
+            $table->boolean('objectivec');
+            $table->boolean('objectivecplus');
+            $table->boolean('pascal');
+            $table->boolean('powershell');
+            $table->boolean('rust');
+            $table->boolean('swift');
+            $table->boolean('typescript');
+            $table->boolean('vue');
+            $table->boolean('webassembly');
+            $table->boolean('apache');
+            $table->boolean('aws');
+            $table->boolean('docker');
+            $table->boolean('nginx');
+            $table->boolean('saas');
+            $table->boolean('ipv4');
+            $table->boolean('ipv6');
+            $table->boolean('dns');
+
+            $table->boolean('notifynewjob')->default(1);
+            $table->boolean('notifymarketing')->default(0);
 
             $table->string('password');
             $table->rememberToken();

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+            <div id="filters" class="panel panel-default">
                 <div class="panel-heading">Filter Matches</div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -22,19 +22,63 @@
                                 <option value="nt" @if (Auth::user()->state == "nt") selected @endif >Northern Teritory</option>
                                 <option value="oth" @if (Auth::user()->state == "oth") selected @endif >Other Australian Region</option>
                             </select>
+
+                            <br>
+                        </div>
+
+                        <label for="Term" class="col-md-4 control-label">Term</label>
+
+                        <div class="col-md-6">
+                            <select id="term" class="form-control">
+                                <option value="any" selected>Any</option>
+                                <option value="fixed">Fixed</option>
+                                <option value="permanent">Permanent</option>
+                            </select>
+
+                            <br>
+                        </div>
+
+                        <label for="hours" class="col-md-4 control-label">Hours</label>
+
+                        <div class="col-md-6">
+                            <select id="hours" class="form-control">
+                                <option value="any" selected="">Any</option>
+                                <option value="fulltime">Full-time</option>
+                                <option value="parttime">Part-time</option>
+                            </select>
+
+                            <br>
+                        </div>
+
+                        <label for="rate" class="col-md-4 control-label">Rate</label>
+
+                        <div class="col-md-6">
+                            <select id="rate" class="form-control">
+                                <option value="any" selected>Any</option>
+                                <option value="hourly">Hourly</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="fortnightly">Fortnightly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="annually">Annually</option>
+                            </select>
+
+                            <br>
+                        </div>
+
+                        <label for="salary" class="col-md-4 control-label">Salary</label>
+                        <div class="col-md-6">
+                            <input id="salary" type="number" min="18" max="200000" class="form-control">
                         </div>
                     </div>
                 </div>
             </div>
-
-            <hr>
 
             <!-- NoScript div. Used to display message about JavaScript being disabled, or not working. -->
             <div id="noscript" class="panel panel-default">
                 <div class="panel-heading"><strong>Notice</strong></div>
                 <div class="panel-body" align="center">
                     <br><br>
-                    <p><i style="font-size: 200px" class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
+                    <p class="panel-notice-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
                     <br>
                     <h2>Please enable JavaScript.</h2>
                     <p>JobsAustralia.tech requires JavaScirpt to perform matchmaking.</p>
@@ -42,22 +86,22 @@
                 </div>
             </div>
             <!-- Loading div. Used to display loading animation until first match is loaded to page. -->
-            <div id="loading" class="panel panel-default" style="display: none">
+            <div id="loading" class="panel panel-default default-hide">
                 <div class="panel-heading"><strong>Notice</strong></div>
                 <div class="panel-body" align="center">
                     <br><br>
-                    <p><i style="font-size: 200px" class="fa fa-cog fa-spin fa-3x fa-fw"></i></p>
+                    <p class="panel-notice-icon-animated"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></p>
                     <br>
                     <h2>Loading Matches.</h2>
                     <br><br>
                 </div>
             </div>
             <!-- No matches div. Used to display message when no matches are found. -->
-            <div id="nomatches" class="panel panel-default" style="display: none">
+            <div id="nomatches" class="panel panel-default default-hide">
                 <div class="panel-heading"><strong>Notice</strong></div>
                 <div class="panel-body" align="center">
                     <br><br>
-                    <p><i style="font-size: 200px" class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
+                    <p class="panel-notice-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
                     <br>
                     <h2>No Matches Found.</h2>
                     <p>Try again later.</p>
@@ -65,11 +109,11 @@
                 </div>
             </div>
             <!-- Error div. Used to display message when no matches are found. -->
-            <div id="error" class="panel panel-default" style="display: none">
+            <div id="error" class="panel panel-default default-hide">
                 <div class="panel-heading"><strong>Notice</strong></div>
                 <div class="panel-body" align="center">
                     <br><br>
-                    <p><i style="font-size: 200px" class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
+                    <p class="panel-notice-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
                     <br>
                     <h2>Error.</h2>
                     <p>An error occurred. Please try again later, and <a href="{{ route('contact') }}">report it to us</a> if this error reoccurs</p>

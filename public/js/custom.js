@@ -1,19 +1,19 @@
 /* Generic function to toggle the display of an element. */
-function toggleDisplay(){
+function toggleDisplay(event){
     event.preventDefault();
 
     var element = document.getElementById(event.target.id + "-content");
     
-    if(element.style.display == "none"){
-        element.style.display = "block";
+    if(element.style.display == "block"){
+        element.style.display = "none";
     }
     else{
-        element.style.display = "none";
+        element.style.display = "block";
     }
 }
 
 /* Function to toggle the display of each team member on the about page. */
-function toggleTeamDisplay(){
+function toggleTeamDisplay(event){
     document.getElementById("kim-content").style.display = "none";
     document.getElementById("aaron-content").style.display = "none";
     document.getElementById("melissa-content").style.display = "none";
@@ -71,13 +71,13 @@ function studentFill(){
 }
 
 /* Function to submit POST data to server with form in the background. */
-function submitForm(){
+function submitForm(event){
     event.preventDefault();
     document.getElementById(event.target.id + "-form").submit();
 }
 
 /* Function to autofill skills from GitHub. */
-function autoFill(){
+function autoFill(event){
     event.preventDefault();
 
     document.getElementById("github-error-generic").style.display = "none";
@@ -147,6 +147,69 @@ function autoFill(){
                     else if(data[i].language == "Scala"){
                         document.getElementById("scala").checked = true;
                     }
+                    else if(data[i].language == "ActionScript"){
+                        document.getElementById("actionscript").checked = true;
+                    }
+                    else if(data[i].language == "AutoHotkey"){
+                        document.getElementById("autoHotkey").checked = true;
+                    }
+                    else if(data[i].language == "CoffeeScript"){
+                        document.getElementById("coffeescript").checked = true;
+                    }
+                    else if(data[i].language == "D"){
+                        document.getElementById("d").checked = true;
+                    }
+                    else if(data[i].language == "F#"){
+                        document.getElementById("fsharp").checked = true;
+                    }
+                    else if(data[i].language == "Haskell"){
+                        document.getElementById("haskell").checked = true;
+                    }
+                    else if(data[i].language == "Matlab"){
+                        document.getElementById("matlab").checked = true;
+                    }
+                    else if(data[i].language == "Objective-C"){
+                        document.getElementById("objectivec").checked = true;
+                    }
+                    else if(data[i].language == "Objective-C++"){
+                        document.getElementById("objectivecplus").checked = true;
+                    }
+                    else if(data[i].language == "Pascal"){
+                        document.getElementById("pascal").checked = true;
+                    }
+                    else if(data[i].language == "PowerShell"){
+                        document.getElementById("powershell").checked = true;
+                    }
+                    else if(data[i].language == "Rust"){
+                        document.getElementById("rust").checked = true;
+                    }
+                    else if(data[i].language == "Swift"){
+                        document.getElementById("swift").checked = true;
+                    }
+                    else if(data[i].language == "TypeScript"){
+                        document.getElementById("typescript").checked = true;
+                    }
+                    else if(data[i].language == "Vue"){
+                        document.getElementById("vue").checked = true;
+                    }
+                    else if(data[i].language == "WebAssembly"){
+                        document.getElementById("webassembly").checked = true;
+                    }
+                    else if(data[i].language == "ApacheConf"){
+                        document.getElementById("apache").checked = true;
+                    }
+                    else if(data[i].language == "Dockerfile"){
+                        document.getElementById("docker").checked = true;
+                    }
+                    else if(data[i].language == "Nginx"){
+                        document.getElementById("nginx").checked = true;
+                    }
+                    else if(data[i].language == "DNS Zone"){
+                        document.getElementById("dns").checked = true;
+                    }
+                    else if(data[i].language == "Perl"){
+                        document.getElementById("perl").checked = true;
+                    }
                 }
             }
         })
@@ -166,16 +229,88 @@ function autoFill(){
 
 /* Function to (roughly) get the users location by their IP address using an external resource. */
 function getLocationByIP(){
-    /* This resource (freegeoip.net) may be blocked by some ad blocking and privacy software. In such a case, this will silently fail. */
-    var resource = "https://freegeoip.net/json/";
+    /* Respect do-not-track setting. */
+    if(navigator.doNotTrack !== "1"){
 
-    $.getJSON(resource, function(location){
-        /* Only autofill if country is detected as Australia. */
-        if(location.country_code == "AU"){
-            document.getElementById("state").value = location.region_code.toLowerCase();
-            document.getElementById("city").value = location.city;
-        }
-    });
+        /* This resource (freegeoip.net) may be blocked by some ad blocking and privacy software. In such a case, this will silently fail. */
+        var resource = "https://freegeoip.net/json/";
+
+        $.getJSON(resource, function(location){
+            /* Only autofill if country is detected as Australia. */
+            if(location.country_code == "AU"){
+                document.getElementById("state").value = location.region_code.toLowerCase();
+                document.getElementById("city").value = location.city;
+            }
+        });
+    }
+}
+
+/* Salary logic. */
+function applySalaryLogic(){
+    var hours = document.getElementById("hours");
+    var rate = document.getElementById("rate");
+    var salary = document.getElementById("salary");
+
+    if(hours.value == "parttime" && rate.value == "hourly"){
+        salary.min = "18";
+        salary.max = "1000";
+    }
+    else if(hours.value == "parttime" && rate.value == "weekly"){
+        salary.min = "200";
+        salary.max = "2000";
+    }
+    else if(hours.value == "parttime" && rate.value == "fortnightly"){
+        salary.min = "500";
+        salary.max = "3000";
+    }
+    else if(hours.value == "parttime" && rate.value == "monthly"){
+        salary.min = "1000";
+        salary.max = "4000";
+    }
+    else if(hours.value == "parttime" && rate.value == "annually"){
+        salary.min = "10000";
+        salary.max = "40000";
+    }
+    else if(hours.value == "fulltime" && rate.value == "hourly"){
+        salary.min = "24";
+        salary.max = "1000";
+    }
+    else if(hours.value == "fulltime" && rate.value == "weekly"){
+        salary.min = "1000";
+        salary.max = "2000";
+    }
+    else if(hours.value == "fulltime" && rate.value == "fortnightly"){
+        salary.min = "2000";
+        salary.max = "4000";
+    }
+    else if(hours.value == "fulltime" && rate.value == "monthly"){
+        salary.min = "3000";
+        salary.max = "5000";
+    }
+    else if(hours.value == "fulltime" && rate.value == "annually"){
+        salary.min = "40000";
+        salary.max = "200000";
+    }
+    else if(hours.value == "any" && rate.value == "hourly"){
+        salary.min = "18";
+        salary.max = "1000";
+    }
+    else if(hours.value == "any" && rate.value == "weekly"){
+        salary.min = "200";
+        salary.max = "2000";
+    }
+    else if(hours.value == "any" && rate.value == "fortnightly"){
+        salary.min = "500";
+        salary.max = "4000";
+    }
+    else if(hours.value == "any" && rate.value == "monthly"){
+        salary.min = "1000";
+        salary.max = "5000";
+    }
+    else if(hours.value == "any" && rate.value == "annually"){
+        salary.min = "10000";
+        salary.max = "200000";
+    }
 }
 
 /* Moo. */
@@ -216,6 +351,10 @@ else if(document.getElementById("job") !== null){
 else if(document.getElementById("delete-application") !== null){
     document.getElementById("delete-application-button").addEventListener("click", toggleDisplay);
     document.getElementById("delete-application-confirm").addEventListener("click", submitForm);
+}
+else if(document.getElementById("filters") !== null){
+    document.getElementById("hours").addEventListener("change", applySalaryLogic);
+    document.getElementById("rate").addEventListener("change", applySalaryLogic);
 }
 
 /* Add EventListener to logout link. */

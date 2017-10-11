@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Application;
 use App\Employer;
 use App\Job;
+use App\Mail\Apply;
 use App\User;
 
 use Auth;
+use Mail;
 use Uuid;
 
 use App\Http\Controllers\Controller;
@@ -37,13 +39,26 @@ class ApplicationController extends Controller{
         if($count == 0){
             $job = Job::findOrFail($id);
 
+            $appid = Uuid::generate();
+
             Application::create([
-                'id' => Uuid::generate(),
+                'id' => $appid,
                 'userid' => Auth::user()->id,
                 'employerid' => $job->employerid,
                 'jobid' => $id,
                 'message' => $request['message']
             ]);
+
+            $employer = Employer::findOrFail($job->employerid);
+            $email = $employer->email;
+
+            /* Send a notification email to the employer depending on preference. */
+            if($employer->notifyapply && substr($email, -4) !== ".dev"){
+                $link = "https://employ.jobsaustralia.tech/application/" . $appid;
+                $title = $job->title;
+
+                Mail::to($email)->queue(new Apply($link, $title));
+            }
         }
 
         return Redirect::route('applications');
